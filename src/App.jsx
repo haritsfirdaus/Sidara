@@ -7,7 +7,6 @@ import Informasi from "./layout/informasi";
 import Polisi from "./mapping/polisi";
 import RumahSakit from "./mapping/hospital";
 import Klinik from "./mapping/klinik";
-import Login from "./layout/login";
 import FAQ from "./layout/faq";
 import Question from './pages/pertanyaan';
 import Hasil from "./pages/hasilDiagnosis";
@@ -30,7 +29,6 @@ import Panduan from "./pages/panduan";
 import Signup from "./layout/signup";
 import ProfilUser from "./pages/profilUser";
 import ChatPage from "./pages/chatPage";
-import FloatingChatButton from "./components/FloatingChatButton";
 import NotFound from "./layout/notFound";
 import Riwayat from "./pages/riwayatUser";
 
@@ -79,7 +77,6 @@ const AppWrapper = () => {
       </main>
 
       {!isAdminRoute && <Footer />}
-      {!isAdminRoute && <FloatingChatButton />}
     </>
   );
 };
