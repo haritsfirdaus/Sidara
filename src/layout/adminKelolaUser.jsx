@@ -9,56 +9,72 @@ const KelolaUser = () => {
     fetchUsers();
   }, []);
 
+  const API_URL = `${import.meta.env.VITE_API}/api/users`;
+  const AUTH_URL = `${import.meta.env.VITE_API}/api/auth`;
+
   const fetchUsers = async () => {
     try {
-      const res = await fetch('http://localhost:5001/api/users');
+      const res = await fetch(API_URL, {
+        headers: { "ngrok-skip-browser-warning": "true" },
+        credentials: "include"
+      });
       const data = await res.json();
       setUsers(data);
     } catch (err) {
-      console.error('❌ Gagal mengambil data user:', err);
+      console.error('Gagal mengambil data user:', err);
     }
   };
 
   const handleToggleStatus = async (id) => {
     try {
-      await fetch(`http://localhost:5001/api/users/${id}/status`, {
-        method: 'PATCH'
+      await fetch(`${API_URL}/${id}/status`, {
+        method: 'PATCH',
+        headers: { "ngrok-skip-browser-warning": "true" },
+        credentials: "include"
       });
       fetchUsers();
     } catch (err) {
-      alert('❌ Gagal mengubah status');
+      alert('Gagal mengubah status');
     }
   };
 
   const handleApprove = async (id) => {
     try {
-      await fetch(`http://localhost:5001/api/auth/approve/${id}`, {
-        method: 'PUT'
+      await fetch(`${AUTH_URL}/approve/${id}`, {
+        method: 'PUT',
+        headers: { "ngrok-skip-browser-warning": "true" },
+        credentials: "include"
       });
       fetchUsers();
     } catch (err) {
-      alert('❌ Gagal menyetujui user');
+      alert('Gagal menyetujui user');
     }
   };
 
   const handleDelete = async (id) => {
     if (window.confirm('Yakin ingin menghapus user ini?')) {
       try {
-        await fetch(`http://localhost:5001/api/users/${id}`, {
-          method: 'DELETE'
+        await fetch(`${API_URL}/${id}`, {
+          method: 'DELETE',
+          headers: { "ngrok-skip-browser-warning": "true" },
+          credentials: "include"
         });
         fetchUsers();
       } catch (err) {
-        alert('❌ Gagal menghapus user');
+        alert('Gagal menghapus user');
       }
     }
   };
 
   const handleResetPassword = async (email) => {
     try {
-      const res = await fetch('http://localhost:5001/api/users/reset-password', {
+      const res = await fetch(`${API_URL}/reset-password`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          "ngrok-skip-browser-warning": "true"
+        },
+        credentials: "include",
         body: JSON.stringify({ email })
       });
       const data = await res.json();
@@ -67,6 +83,65 @@ const KelolaUser = () => {
       alert('Gagal mereset password');
     }
   };
+
+  // const fetchUsers = async () => {
+  //   try {
+  //     const res = await fetch('http://localhost:5001/api/users');
+  //     const data = await res.json();
+  //     setUsers(data);
+  //   } catch (err) {
+  //     console.error('❌ Gagal mengambil data user:', err);
+  //   }
+  // };
+
+  // const handleToggleStatus = async (id) => {
+  //   try {
+  //     await fetch(`http://localhost:5001/api/users/${id}/status`, {
+  //       method: 'PATCH'
+  //     });
+  //     fetchUsers();
+  //   } catch (err) {
+  //     alert('❌ Gagal mengubah status');
+  //   }
+  // };
+
+  // const handleApprove = async (id) => {
+  //   try {
+  //     await fetch(`http://localhost:5001/api/auth/approve/${id}`, {
+  //       method: 'PUT'
+  //     });
+  //     fetchUsers();
+  //   } catch (err) {
+  //     alert('❌ Gagal menyetujui user');
+  //   }
+  // };
+
+  // const handleDelete = async (id) => {
+  //   if (window.confirm('Yakin ingin menghapus user ini?')) {
+  //     try {
+  //       await fetch(`http://localhost:5001/api/users/${id}`, {
+  //         method: 'DELETE'
+  //       });
+  //       fetchUsers();
+  //     } catch (err) {
+  //       alert('❌ Gagal menghapus user');
+  //     }
+  //   }
+  // };
+
+  // const handleResetPassword = async (email) => {
+  //   try {
+  //     const res = await fetch('http://localhost:5001/api/users/reset-password', {
+  //       method: 'POST',
+  //       headers: { 'Content-Type': 'application/json' },
+  //       body: JSON.stringify({ email })
+  //     });
+  //     const data = await res.json();
+  //     alert(`Password user telah direset: ${data.passwordBaru}`);
+  //   } catch (err) {
+  //     alert('Gagal mereset password');
+  //   }
+  // };
 
   const handleExport = () => {
     const headers = ['ID', 'Nama', 'Usia', 'Email', 'Role', 'Status', 'Tanggal Daftar'];

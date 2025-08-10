@@ -1,17 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-  UserIcon,
-  FileTextIcon,
-  LayoutDashboardIcon,
-  MenuIcon,
-  XIcon,
-  SettingsIcon,
-  LogOutIcon,
-  UserCircleIcon,
-  MailIcon,
-  History
-} from 'lucide-react';
+import { UserIcon, FileTextIcon, LayoutDashboardIcon, MenuIcon, XIcon, SettingsIcon, LogOutIcon, UserCircleIcon, MailIcon, History } from 'lucide-react';
 
 import KelolaGejala from './adminKelolaGejala';
 import KelolaUser from './adminKelolaUser';

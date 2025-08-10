@@ -25,9 +25,12 @@ const SignupPage = () => {
     setSuccess('');
 
     try {
-      await axios.post('http://localhost:5001/api/auth/register', {
+      await axios.post(`${import.meta.env.VITE_API}/api/auth/register`, {
         ...formData,
         role: activeTab === 'admin' ? 'admin' : 'user',
+      }, {
+        headers: { "ngrok-skip-browser-warning": "true" },
+        withCredentials: true
       });
 
       setSuccess('Akun berhasil dibuat! Silakan login.');

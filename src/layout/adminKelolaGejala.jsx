@@ -11,7 +11,7 @@ const daftarPenyakit = [
   { kode: 'P05', nama: 'Neuropati Perifer' },
 ];
 
-const API_URL = 'http://localhost:5001/api/gejala';
+const API_URL = `${import.meta.env.VITE_API}/api/gejala`
 
 const KelolaGejala = () => {
   const [gejalaList, setGejalaList] = useState([]);
@@ -28,9 +28,28 @@ const KelolaGejala = () => {
     fetchGejala();
   }, []);
 
+  // const fetchGejala = async () => {
+  //   try {
+  //     const res = await axios.get(API_URL);
+  //     console.log('Hasil GET /api/gejala:', res.data);
+  //     if (Array.isArray(res.data)) {
+  //       setGejalaList(res.data);
+  //     } else {
+  //       console.error('Data bukan array:', res.data);
+  //       setGejalaList([]);
+  //     }
+  //   } catch (err) {
+  //     console.error('Gagal ambil data gejala:', err);
+  //     setGejalaList([]);
+  //   }
+  // };
+
   const fetchGejala = async () => {
     try {
-      const res = await axios.get(API_URL);
+      const res = await axios.get(API_URL, {
+        headers: { "ngrok-skip-browser-warning": "true" },
+        withCredentials: true
+      });
       console.log('Hasil GET /api/gejala:', res.data);
       if (Array.isArray(res.data)) {
         setGejalaList(res.data);
@@ -74,6 +93,41 @@ const KelolaGejala = () => {
     });
   };
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   if (!formData.kode || !formData.gejala) return;
+
+  //   const newItem = {
+  //     id: editId || Date.now(),
+  //     kode: formData.kode,
+  //     gejala: formData.gejala,
+  //     subGejala: formData.subGejala.map((sg, i) => ({
+  //       nama: sg,
+  //       nilai: parseInt(formData.nilaiSubGejala[i]) || 0,
+  //     })),
+  //     penyakitTerkait: formData.penyakitTerkait,
+  //   };
+
+  //   try {
+  //     if (editId) {
+  //       await axios.put(`${API_URL}/${editId}`, newItem);
+  //     } else {
+  //       await axios.post(API_URL, newItem);
+  //     }
+  //     fetchGejala();
+  //     setFormData({
+  //       kode: '',
+  //       gejala: '',
+  //       subGejala: [''],
+  //       nilaiSubGejala: [''],
+  //       penyakitTerkait: [],
+  //     });
+  //     setEditId(null);
+  //   } catch (error) {
+  //     console.error('Gagal simpan gejala:', error);
+  //   }
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.kode || !formData.gejala) return;
@@ -91,9 +145,15 @@ const KelolaGejala = () => {
 
     try {
       if (editId) {
-        await axios.put(`${API_URL}/${editId}`, newItem);
+        await axios.put(`${API_URL}/${editId}`, newItem, {
+          headers: { "ngrok-skip-browser-warning": "true" },
+          withCredentials: true
+        });
       } else {
-        await axios.post(API_URL, newItem);
+        await axios.post(API_URL, newItem, {
+          headers: { "ngrok-skip-browser-warning": "true" },
+          withCredentials: true
+        });
       }
       fetchGejala();
       setFormData({
@@ -120,9 +180,31 @@ const KelolaGejala = () => {
     setEditId(item.id);
   };
 
+  // const handleDelete = async (id) => {
+  //   try {
+  //     await axios.delete(`${API_URL}/${id}`);
+  //     fetchGejala();
+  //     if (editId === id) {
+  //       setFormData({
+  //         kode: '',
+  //         gejala: '',
+  //         subGejala: [''],
+  //         nilaiSubGejala: [''],
+  //         penyakitTerkait: [],
+  //       });
+  //       setEditId(null);
+  //     }
+  //   } catch (err) {
+  //     console.error('Gagal hapus gejala:', err);
+  //   }
+  // };
+
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`${API_URL}/${id}`);
+      await axios.delete(`${API_URL}/${id}`, {
+        headers: { "ngrok-skip-browser-warning": "true" },
+        withCredentials: true
+      });
       fetchGejala();
       if (editId === id) {
         setFormData({

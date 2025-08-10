@@ -9,11 +9,32 @@ const AdminKelolaPesan = () => {
   const [selectedId, setSelectedId] = useState(null);
   const [deleting, setDeleting] = useState(false);
 
+  // const fetchPesan = async () => {
+  //   setLoading(true);
+  //   setError(false);
+  //   try {
+  //     const response = await fetch('http://localhost:5001/api/kontak');
+  //     if (!response.ok) throw new Error('Gagal memuat data');
+  //     const data = await response.json();
+  //     setPesanList(data);
+  //   } catch (err) {
+  //     console.error('Error:', err);
+  //     setError(true);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+  const API_URL = `${import.meta.env.VITE_API}/api/kontak`;
+
   const fetchPesan = async () => {
     setLoading(true);
     setError(false);
     try {
-      const response = await fetch('http://localhost:5001/api/kontak');
+      const response = await fetch(API_URL, {
+        headers: { "ngrok-skip-browser-warning": "true" },
+        credentials: "include"
+      });
       if (!response.ok) throw new Error('Gagal memuat data');
       const data = await response.json();
       setPesanList(data);
@@ -29,13 +50,37 @@ const AdminKelolaPesan = () => {
     fetchPesan();
   }, []);
 
+  // const handleDelete = async () => {
+  //   if (!selectedId) return;
+  //   setDeleting(true);
+
+  //   try {
+  //     const response = await fetch(`http://localhost:5001/kontak/${selectedId}`, {
+  //       method: 'DELETE',
+  //     });
+  //     if (response.ok) {
+  //       fetchPesan();
+  //       setShowConfirm(false);
+  //       setSelectedId(null);
+  //     } else {
+  //       console.error('Gagal menghapus pesan.');
+  //     }
+  //   } catch (error) {
+  //     console.error('Gagal:', error);
+  //   } finally {
+  //     setDeleting(false);
+  //   }
+  // };
+
   const handleDelete = async () => {
     if (!selectedId) return;
     setDeleting(true);
 
     try {
-      const response = await fetch(`http://localhost:5001/kontak/${selectedId}`, {
+      const response = await fetch(`${API_URL}/${selectedId}`, {
         method: 'DELETE',
+        headers: { "ngrok-skip-browser-warning": "true" },
+        credentials: "include"
       });
       if (response.ok) {
         fetchPesan();

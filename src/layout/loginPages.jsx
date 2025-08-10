@@ -13,7 +13,7 @@ const LoginPage = () => {
     setError('');
 
     try {
-      const response = await axios.post('http://localhost:5001/api/auth/login', {
+      const response = await axios.post(`${import.meta.env.VITE_API}/api/auth/login`, {
         email,
         password
       });

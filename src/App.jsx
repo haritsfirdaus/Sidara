@@ -18,7 +18,7 @@ import BellsPalsy from "./pages/contents/bellsPalsy";
 import LowBackPain from "./pages/contents/lowBackPain";
 import Vertigo from "./pages/contents/vertigo";
 import NeuropatiPerifer from "./pages/contents/neuropatiPerifer";
-import AdminLogin from "./layout/admin";
+import LoginPages from "./layout/loginPages";
 import AdminDashboard from "./layout/adminDashboard";
 import ListGejala from "./pages/listGejala";
 import ListPenyakit from "./pages/listPenyakit";
@@ -57,7 +57,7 @@ const AppWrapper = () => {
           <Route path="/kontak" element={<KontakKami />} />
           <Route path="/informasi/artikel" element={<Artikel />} />
           <Route path="/informasi/panduan" element={<Panduan />} />
-          <Route path="/login" element={<AdminLogin />} />
+          <Route path="/login" element={<LoginPages />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/profil" element={<ProfilUser />} />
           <Route path="/informasi/gejala" element={<ListGejala />} />

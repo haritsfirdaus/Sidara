@@ -19,12 +19,34 @@ const ProfilUser = () => {
   const userId = userStorage?.userId;
   const token = userStorage?.token;
 
+  // const fetchUser = async () => {
+  //   try {
+  //     const res = await axios.get(`http://localhost:5001/api/users/${userId}`, {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`
+  //       }
+  //     });
+  //     setUser(res.data);
+  //     setEditData({
+  //       nama: res.data.nama || '',
+  //       usia: res.data.usia || '',
+  //       email: res.data.email || ''
+  //     });
+  //   } catch {
+  //     setError('Gagal memuat data profil.');
+  //   }
+  // };
+
+  const API_URL = `${import.meta.env.VITE_API}/api/users`;
+
   const fetchUser = async () => {
     try {
-      const res = await axios.get(`http://localhost:5001/api/users/${userId}`, {
+      const res = await axios.get(`${API_URL}/${userId}`, {
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+          "ngrok-skip-browser-warning": "true"
+        },
+        withCredentials: true
       });
       setUser(res.data);
       setEditData({
@@ -45,29 +67,80 @@ const ProfilUser = () => {
     }
   }, [userId, token]);
 
-  const handleEditProfile = async (e) => {
-  e.preventDefault();
-  try {
-    await axios.put(`http://localhost:5001/api/users/${userId}`, editData, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
+//   const handleEditProfile = async (e) => {
+//   e.preventDefault();
+//   try {
+//     await axios.put(`http://localhost:5001/api/users/${userId}`, editData, {
+//       headers: { Authorization: `Bearer ${token}` }
+//     });
     
-    // Ambil ulang user dari DB, jangan pakai state lama
-    const res = await axios.get(`http://localhost:5001/api/users/${userId}`, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
-    setUser(res.data);
-    setEditData({ nama: res.data.nama, usia: res.data.usia, email: res.data.email });
+//     // Ambil ulang user dari DB, jangan pakai state lama
+//     const res = await axios.get(`http://localhost:5001/api/users/${userId}`, {
+//       headers: { Authorization: `Bearer ${token}` }
+//     });
+//     setUser(res.data);
+//     setEditData({ nama: res.data.nama, usia: res.data.usia, email: res.data.email });
 
-    setEditMode(false);
-    setMessage('Profil berhasil diperbarui.');
-    setError('');
-  } catch (err) {
-    setError('Gagal memperbarui profil.');
-    setMessage('');
-  }
-};
+//     setEditMode(false);
+//     setMessage('Profil berhasil diperbarui.');
+//     setError('');
+//   } catch (err) {
+//     setError('Gagal memperbarui profil.');
+//     setMessage('');
+//   }
+// };
 
+  const handleEditProfile = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.put(`${API_URL}/${userId}`, editData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "ngrok-skip-browser-warning": "true"
+        },
+        withCredentials: true
+      });
+
+      const res = await axios.get(`${API_URL}/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "ngrok-skip-browser-warning": "true"
+        },
+        withCredentials: true
+      });
+      setUser(res.data);
+      setEditData({ nama: res.data.nama, usia: res.data.usia, email: res.data.email });
+
+      setEditMode(false);
+      setMessage('Profil berhasil diperbarui.');
+      setError('');
+    } catch (err) {
+      setError('Gagal memperbarui profil.');
+      setMessage('');
+    }
+  };
+
+
+  // const handleChangePassword = async (e) => {
+  //   e.preventDefault();
+  //   setError('');
+  //   setMessage('');
+
+  //   if (passwordData.newPassword !== passwordData.confirmNewPassword) {
+  //     setError('Konfirmasi password tidak cocok.');
+  //     return;
+  //   }
+
+  //   try {
+  //     await axios.put(`http://localhost:5001/api/users/${userId}/password`, passwordData, {
+  //       headers: { Authorization: `Bearer ${token}` }
+  //     });
+  //     setMessage('Password berhasil diubah.');
+  //     setPasswordData({ currentPassword: '', newPassword: '', confirmNewPassword: '' });
+  //   } catch (err) {
+  //     setError(err.response?.data?.error || 'Gagal mengganti password.');
+  //   }
+  // };
 
   const handleChangePassword = async (e) => {
     e.preventDefault();
@@ -80,8 +153,12 @@ const ProfilUser = () => {
     }
 
     try {
-      await axios.put(`http://localhost:5001/api/users/${userId}/password`, passwordData, {
-        headers: { Authorization: `Bearer ${token}` }
+      await axios.put(`${API_URL}/${userId}/password`, passwordData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "ngrok-skip-browser-warning": "true"
+        },
+        withCredentials: true
       });
       setMessage('Password berhasil diubah.');
       setPasswordData({ currentPassword: '', newPassword: '', confirmNewPassword: '' });
