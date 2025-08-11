@@ -7,7 +7,7 @@ export default function StartDiagnosis() {
   const [userData, setUserData] = useState({ nama: "", usia: "" });
 
   useEffect(() => {
-    const storedData = localStorage.getItem("userDiagnosis");
+    const storedData = localStorage.getItem("user");
     if (storedData) {
       setUserData(JSON.parse(storedData));
     }

@@ -25,6 +25,7 @@ const LoginPage = () => {
         token,
         id: user.id,
         nama: user.nama,
+        usia: user.usia,
         email: user.email,
         role: user.role
       }));
