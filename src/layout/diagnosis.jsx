@@ -13,9 +13,22 @@ export default function StartDiagnosis() {
     }
   }, []);
 
+  // const handleStart = () => {
+  //   navigate("/diagnosis/question");
+  // };
   const handleStart = () => {
+    // Simpan data userDiagnosis
+    localStorage.setItem(
+      "userDiagnosis",
+      JSON.stringify({
+        nama: userData?.nama || "",
+        usia: userData?.usia || "",
+      })
+    );
+  
     navigate("/diagnosis/question");
   };
+  
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-silver text-primary px-4">
