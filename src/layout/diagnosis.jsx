@@ -19,7 +19,7 @@ export default function StartDiagnosis() {
   const handleStart = () => {
     // Simpan data userDiagnosis
     localStorage.setItem(
-      "userDiagnosis",
+      "diagnosisResult",
       JSON.stringify({
         nama: userData?.nama || "",
         usia: userData?.usia || "",
