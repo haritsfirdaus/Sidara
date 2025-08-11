@@ -58,10 +58,15 @@ const Pertanyaan = () => {
       const userInfo = JSON.parse(localStorage.getItem("userDiagnosis") || "{}");
       console.log("User Info:", userInfo);
 
-      const response = await axios.post("http://localhost:5001/api/diagnosis", {
+      const response = await axios.post(`${import.meta.env.VITE_API}/api/diagnosis`, {
         nama: userInfo.nama,
         usia: userInfo.usia,
         answers,
+      }, {
+        withCredentials: true,
+        headers: {
+          "ngrok-skip-browser-warning": "true"
+        }
       });
 
 

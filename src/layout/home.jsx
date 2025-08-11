@@ -1,8 +1,27 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { BrainCog, Stethoscope, SearchCheck, Activity, ArrowRight, Users, BookOpen, Shield } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const [user, setUser] = useState("");
+  const navigate = useNavigate();
+  
+  useEffect(() => {
+      const handleStorageChange = () => {
+        const storedUser = localStorage.getItem("user");
+        if (storedUser) {
+          setUser(JSON.parse(storedUser));
+        } else {
+          setUser("null");
+        }
+      };
+  
+      handleStorageChange();
+      window.addEventListener("storage", handleStorageChange);
+      return () => window.removeEventListener("storage", handleStorageChange);
+    }, []);
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white text-gray-800">
       {/* Hero Section */}
@@ -15,12 +34,24 @@ const Home = () => {
           <p className="mt-4 text-white text-lg md:text-xl">
             Berdasarkan Metode <span className="font-semibold text-emas">Fuzzy Logic Mamdani</span>
           </p>
-          <Button
+          {/* <Button
             className="mt-6 text-base px-8 py-4 rounded-2xl drop-shadow-md hover:bg-primary bg-secondary/20 text-black"
             onClick={() => (window.location.href = "/diagnosis")}
           >
             Mulai Diagnosis
-          </Button>
+          </Button> */}
+          <button
+              onClick={() => {
+                if (!user) {
+                  navigate("/diagnosis");
+                } else {
+                  navigate("/login");
+                }
+              }}
+               className="mt-6 text-base px-8 py-4 rounded-2xl drop-shadow-md hover:bg-primary bg-secondary/20 text-silver"
+            >
+              Mulai Diagnosis
+            </button>
         </div>
       </section>
 

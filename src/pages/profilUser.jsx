@@ -16,31 +16,14 @@ const ProfilUser = () => {
   const [error, setError] = useState('');
 
   const userStorage = JSON.parse(localStorage.getItem('user')) || {};
-  const userId = userStorage?.userId;
+  const userId = userStorage?.id;
   const token = userStorage?.token;
-
-  // const fetchUser = async () => {
-  //   try {
-  //     const res = await axios.get(`http://localhost:5001/api/users/${userId}`, {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`
-  //       }
-  //     });
-  //     setUser(res.data);
-  //     setEditData({
-  //       nama: res.data.nama || '',
-  //       usia: res.data.usia || '',
-  //       email: res.data.email || ''
-  //     });
-  //   } catch {
-  //     setError('Gagal memuat data profil.');
-  //   }
-  // };
 
   const API_URL = `${import.meta.env.VITE_API}/api/users`;
 
   const fetchUser = async () => {
     try {
+      console.log('🔍 Fetch user:', userId, token);
       const res = await axios.get(`${API_URL}/${userId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -48,6 +31,7 @@ const ProfilUser = () => {
         },
         withCredentials: true
       });
+      console.log('✅ Data user:', res.data);
       setUser(res.data);
       setEditData({
         nama: res.data.nama || '',
@@ -56,6 +40,7 @@ const ProfilUser = () => {
       });
     } catch {
       setError('Gagal memuat data profil.');
+      console.error('❌ Error fetch user:', err.response?.data || err);
     }
   };
 
@@ -67,58 +52,72 @@ const ProfilUser = () => {
     }
   }, [userId, token]);
 
-//   const handleEditProfile = async (e) => {
-//   e.preventDefault();
-//   try {
-//     await axios.put(`http://localhost:5001/api/users/${userId}`, editData, {
-//       headers: { Authorization: `Bearer ${token}` }
-//     });
-    
-//     // Ambil ulang user dari DB, jangan pakai state lama
-//     const res = await axios.get(`http://localhost:5001/api/users/${userId}`, {
-//       headers: { Authorization: `Bearer ${token}` }
-//     });
-//     setUser(res.data);
-//     setEditData({ nama: res.data.nama, usia: res.data.usia, email: res.data.email });
+  // const handleEditProfile = async (e) => {
+  //   e.preventDefault();
+  //   console.log('📝 Edit data:', editData);
+  //   try {
+  //     await axios.put(`${API_URL}/${userId}`, editData, {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //         "ngrok-skip-browser-warning": "true"
+  //       },
+  //       withCredentials: true
+  //     });
+  //     console.log('✅ Update response:', updateRes.data);
 
-//     setEditMode(false);
-//     setMessage('Profil berhasil diperbarui.');
-//     setError('');
-//   } catch (err) {
-//     setError('Gagal memperbarui profil.');
-//     setMessage('');
-//   }
-// };
+  //     const res = await axios.get(`${API_URL}/${userId}`, {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //         "ngrok-skip-browser-warning": "true"
+  //       },
+  //       withCredentials: true
+  //     });
+  //     console.log('🔄 Data user setelah update:', res.data);
+  //     setUser(res.data);
+  //     setEditData({ nama: res.data.nama, usia: res.data.usia, email: res.data.email });
 
+  //     setEditMode(false);
+  //     setMessage('Profil berhasil diperbarui.');
+  //     setError('');
+  //   } catch (err) {
+  //     setError('Gagal memperbarui profil.');
+  //     setMessage('');
+  //     console.error('❌ Error update profil:', err.response?.data || err);
+  //   }
+  // };
   const handleEditProfile = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.put(`${API_URL}/${userId}`, editData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "ngrok-skip-browser-warning": "true"
-        },
-        withCredentials: true
-      });
+  e.preventDefault();
+  console.log('📝 Edit data:', editData);
+  try {
+    const updateRes = await axios.put(`${API_URL}/${userId}`, editData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "ngrok-skip-browser-warning": "true"
+      },
+      withCredentials: true
+    });
+    console.log('✅ Update response:', updateRes.data);
 
-      const res = await axios.get(`${API_URL}/${userId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "ngrok-skip-browser-warning": "true"
-        },
-        withCredentials: true
-      });
-      setUser(res.data);
-      setEditData({ nama: res.data.nama, usia: res.data.usia, email: res.data.email });
+    const res = await axios.get(`${API_URL}/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "ngrok-skip-browser-warning": "true"
+      },
+      withCredentials: true
+    });
+    console.log('🔄 Data user setelah update:', res.data);
+    setUser(res.data);
+    setEditData({ nama: res.data.nama, usia: res.data.usia, email: res.data.email });
 
-      setEditMode(false);
-      setMessage('Profil berhasil diperbarui.');
-      setError('');
-    } catch (err) {
-      setError('Gagal memperbarui profil.');
-      setMessage('');
-    }
-  };
+    setEditMode(false);
+    setMessage('Profil berhasil diperbarui.');
+    setError('');
+  } catch (err) {
+    setError('Gagal memperbarui profil.');
+    setMessage('');
+    console.error('❌ Error update profil:', err.response?.data || err);
+  }
+};
 
 
   // const handleChangePassword = async (e) => {

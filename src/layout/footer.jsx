@@ -53,7 +53,7 @@ const Footer = () => {
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link to="/faq" className="hover:text-primary/85 transition-colors flex items-center">
+                                    <Link to="/informasi/faq" className="hover:text-primary/85 transition-colors flex items-center">
                                         <span className="w-1.5 h-1.5 bg-primary rounded-full mr-2"></span>
                                         FAQ
                                     </Link>
@@ -103,7 +103,7 @@ const Footer = () => {
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link to="/informasi/kontak" className="hover:text-primary/85 transition-colors flex items-center">
+                                    <Link to="/kontak" className="hover:text-primary/85 transition-colors flex items-center">
                                         <span className="w-1.5 h-1.5 bg-primary rounded-full mr-2"></span>
                                         Kontak Kami
                                     </Link>

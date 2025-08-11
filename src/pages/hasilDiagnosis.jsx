@@ -26,7 +26,7 @@ export default function HasilDiagnosis() {
 
   useEffect(() => {
     const diagnosisResult = localStorage.getItem("diagnosisResult");
-    const userInfo = localStorage.getItem("userDiagnosis");
+    const userInfo = localStorage.getItem("user");
     
     if (diagnosisResult) {
       try {
@@ -38,8 +38,8 @@ export default function HasilDiagnosis() {
           ? data.hasilDiagnosis
           : [];
 
-        // setHasil(formattedResults.sort((a, b) => b.persentase - a.persentase));
-        setHasil(formattedResults);
+        setHasil(formattedResults.sort((a, b) => b.persentase - a.persentase));
+        // setHasil(formattedResults);
 
         setUserData(userData);
 
