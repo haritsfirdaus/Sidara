@@ -13,11 +13,7 @@ export default function StartDiagnosis() {
     }
   }, []);
 
-  // const handleStart = () => {
-  //   navigate("/diagnosis/question");
-  // };
   const handleStart = () => {
-    // Simpan data userDiagnosis
     localStorage.setItem(
       "diagnosisResult",
       JSON.stringify({
